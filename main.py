@@ -255,6 +255,7 @@ test_aruco_img=cv2.resize(cv2.imread("./aruco.png"),(test_aruco_sz,test_aruco_sz
 
 def cap_with_aruco(cap):
     ret,img=cap.read()
+    if(not ret): return (ret,img)
     img=cv2.resize(img,(640,480))
     img[:10+test_aruco_sz,:10+test_aruco_sz]=[255,255,255]
     img[5:5+test_aruco_sz,5:5+test_aruco_sz]=test_aruco_img
@@ -284,10 +285,10 @@ if __name__ == "__main__":
         for (x0, y0, x1, y1) in info.bboxes_keep:
             cv2.rectangle(frame1, (x0, y0), (x1, y1), (0, 0, 200), 2)
         for (x0, y0, x1, y1, speed, feature_score) in info.bboxes:
-            cv2.rectangle(frame1, (x0, y0), (x1, y1), (0, 200, 200), 2)
+            cv2.rectangle(frame1, (x0, y0), (x1, y1), (0, 255, 0), 2)
             cv2.putText(frame1,"score: {0}".format(feature_score),(x0-50,y0-30),cv2.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2)
             cv2.putText(frame1,"speed: {:.2f}".format(speed),(x0-50,y0),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),2)
-            cv2.rectangle(contour_mask_bgr, (x0, y0), (x1, y1), (0, 255, 0), 3)
+            cv2.rectangle(contour_mask_bgr, (x0, y0), (x1, y1), (0, 255, 0), 2)
             cv2.putText(contour_mask_bgr,"score: {0}".format(feature_score),(x0-50,y0-30),cv2.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2)
             cv2.putText(contour_mask_bgr,"speed: {:.2f}".format(speed),(x0-50,y0),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),2)
 
