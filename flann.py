@@ -29,8 +29,8 @@ class FLANN:
 			self.desc.append(desc)
 
 	def __call__(self,gray):
-		if(gray is None): return 0
-		gray=cv2.normalize(gray, None, 0, 255, cv2.NORM_MINMAX).astype('uint8')
+		if(gray is None or gray.size == 0): return 0
+		gray=cv2.cvtColor(gray,cv2.CV_8U)
 		kp, desc=self.sift.detectAndCompute(gray,None)
 		if(len(kp)<2): return
 		best=(-1,[])  # id, pts
@@ -54,8 +54,8 @@ class FLANN:
 		return [np.int32(cv2.perspectiveTransform(np.float32([[0,0],[0,h-1],[w-1,h-1],[w-1,0]]).reshape(-1,1,2),mtx))]
 	
 	def getScore(self,gray):
-		if(gray is None): return 0
-		gray=gray.astype('uint8')
+		if(gray is None or gray.size == 0): return 0
+		gray=cv2.cvtColor(gray,cv2.CV_8U)
 		kp, desc=self.sift.detectAndCompute(gray,None)
 		if(len(kp)<2): return 0
 		best=0
