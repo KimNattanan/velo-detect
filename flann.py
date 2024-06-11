@@ -69,8 +69,11 @@ class FLANN:
 		return best
 
 	def test(self,feature_gray,gray):
+		if(feature_gray is None or feature_gray.size == 0): return 0
+		if(gray is None or gray.size == 0): return 0
 		kp1, desc1=self.sift.detectAndCompute(feature_gray,None)
 		kp2, desc2=self.sift.detectAndCompute(gray,None)
+		if(len(kp1)<2 or len(kp2)<2): return 0
 		matches=self.flann.knnMatch(desc1,desc2,k=2)
 		pts=[]
 		for m,n in matches:
